@@ -14,7 +14,16 @@ import { getUser } from "./session.server";
 import {withEmotionCache} from "@emotion/react";
 import {useContext, useEffect} from "react";
 import {ClientStyleContext, ServerStyleContext} from "~/context";
-import {ChakraProvider, cookieStorageManagerSSR, localStorageManager, theme} from '@chakra-ui/react'
+import {
+    ChakraProvider,
+    cookieStorageManagerSSR,
+    Drawer, DrawerBody, DrawerContent, DrawerHeader,
+    DrawerOverlay,
+    localStorageManager,
+    theme
+} from '@chakra-ui/react'
+import LayoutIndex from "~/components/layout";
+import {AvatarMenuButton} from "~/components/userLogin/AvatarMenuButton";
 
 
 
@@ -103,7 +112,10 @@ export default function App() {
                             ? cookieStorageManagerSSR(cookies)
                             : localStorageManager
                         }>
-          <Outlet />
+            <LayoutIndex>
+                <AvatarMenuButton/>
+                <Outlet />
+            </LayoutIndex>
         </ChakraProvider>
       </Document>
   )
