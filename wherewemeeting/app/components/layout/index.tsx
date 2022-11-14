@@ -1,39 +1,46 @@
-import React, {ReactNode} from 'react';
-import {Box, Grid, GridItem} from "@chakra-ui/react";
+import React, {ReactNode, useEffect, useState} from 'react';
+import AccountMenu from "~/components/userInfo/AvatarMenuButton";
+import MobileLayout from "~/components/layout/mobile/MobileLayout";
+import {DrawTop} from "~/components/Drawer/DrawTop";
+import Box from '@mui/material/Box';
+import {DesktopLayout} from "~/components/layout/desktop/DesktopLayout";
+import {Root} from "~/components/layout/shared/layout.styles";
 
 interface LayoutIndexProps {
-    children: ReactNode
+    children?: ReactNode
 }
 
-function Gri(props: { gap: number, templateColumns: string, children: React.ReactNode }) {
-    return null;
-}
+const LayoutIndex = ({}: LayoutIndexProps) => {
+    const [_, setHeight] = useState<number | undefined>(undefined);
+    const [width, setWidth] = useState<number | undefined>(undefined);
 
-const LayoutIndex = ({children}: LayoutIndexProps) => {
+    useEffect(() => {
+        const updateWindowDimensions = () => {
+            setHeight(window.innerHeight);
+            setWidth(window.innerWidth);
+        };
+        updateWindowDimensions()
+
+        window.addEventListener("resize", updateWindowDimensions);
+
+        return () => window.removeEventListener("resize", updateWindowDimensions)
+
+    }, []);
+
+
     return (
         <main>
-            <Grid
-                templateAreas={`
-                  "nav main"
-                  "nav footer"`}
-                // gridTemplateRows={'1fr 1fr 1fr'}
-                gridTemplateColumns={'300px 1fr'}
-                h='200px'
-                gap='1'
-                color='blackAlpha.700'
-                fontWeight='bold'
-            >
-                <GridItem pl='2' bg='pink.300' area={'nav'}>
-                    Nav
-                </GridItem>
-                <GridItem pl='2' area={'main'}>
-                    {children}
-                </GridItem>
-                <GridItem pl='2' bg='blue.300' area={'footer'}>
-                    Footer
-                </GridItem>
-            </Grid>
-
+            <Root>
+                { width && width < 768
+                    ? <MobileLayout body={<Box padding={4}>This is the map baby</Box>}
+                                    drawTop={<DrawTop/>}
+                                    drawBody={<AccountMenu/>}
+                    />
+                    : <DesktopLayout  body={<Box padding={4}>This is the map baby</Box>}
+                                      nav={<AccountMenu/>}
+                    />
+                }
+            </Root>
         </main>
     );
 };

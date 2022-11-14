@@ -5,10 +5,11 @@ import {Response} from "@remix-run/node";
 import {RemixServer} from "@remix-run/react";
 import isbot from "isbot";
 import {renderToPipeableStream} from "react-dom/server";
-import { CacheProvider as EmotionCacheProvider } from "@emotion/react";
+import {CacheProvider as EmotionCacheProvider} from "@emotion/react";
 import createEmotionCache from "~/helpers/theme/createEmotionCache";
 import createEmotionServer from "@emotion/server/create-instance";
-
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {theme} from "~/helpers/theme/theme";
 
 
 const ABORT_DELAY = 5000;
@@ -31,7 +32,11 @@ export default function handleRequest(
 
         const {pipe, abort} = renderToPipeableStream(
             <EmotionCacheProvider value={emotionCache}>
-                <RemixServer context={remixContext} url={request.url} />
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline/>
+                    <RemixServer context={remixContext} url={request.url}/>
+                </ThemeProvider>
             </EmotionCacheProvider>,
             {
                 [callbackName]: () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "@remix-run/react";
-import {Button} from "@chakra-ui/react";
+import {Button} from "@mui/material";
+
 
 export const LoginButton = () => {
     return (
