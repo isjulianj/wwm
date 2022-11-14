@@ -1,6 +1,6 @@
 import React from 'react';
-import {AvatarMenuButton} from "~/components/userLogin/AvatarMenuButton";
-import {LoginButton} from "~/components/userLogin/LoginButton";
+import {AvatarMenuButton} from "~/components/userInfo/AvatarMenuButton";
+import {LoginButton} from "~/components/userInfo/LoginButton";
 import {User} from "@prisma/client";
 
 interface UserLoginProps {
